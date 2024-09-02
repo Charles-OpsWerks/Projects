@@ -43,8 +43,12 @@ Condition:
 - Total Person = 30
 - should keep on running until 
     - error  
+        - Error Handling
+            - Max User Per Team
+            - Shift / Team Input
+            - Should Not accept Empty data
     - `print` inputed in name
-- `print` in name: should print out the succesfully *ENCODED DATA*:
+        - `print` in name: should print out the succesfully *ENCODED DATA*:
 
 ### Sample Output
 ---
