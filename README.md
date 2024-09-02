@@ -49,6 +49,7 @@ Condition:
     - `print` inputed in name
         - `print` in name: should print out the succesfully *ENCODED DATA*:
 
+
 ### Sample Output
 ---
 ```
