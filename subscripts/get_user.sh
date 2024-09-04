@@ -2,7 +2,6 @@
 echo "[+] Getting user input..."
 
 get_user_input() {
-    while true; do
         read -p "Enter name: " name
         name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
         if [[ -z "$name" ]]; then
@@ -14,7 +13,6 @@ get_user_input() {
         else
             break
         fi
-    done
 
     echo "Select shift:"
     echo -e "\t 1. Morning (6am - 3pm)"
