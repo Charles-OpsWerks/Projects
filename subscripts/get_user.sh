@@ -10,8 +10,6 @@ get_user_input() {
         elif [[ "$name" == "print" ]]; then
             source ./subscripts/print_user.sh
             exit 0
-        else
-            break
         fi
 
     echo "Select shift:"
