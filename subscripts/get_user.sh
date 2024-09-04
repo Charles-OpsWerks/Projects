@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "[+] Getting user input..."
 
 get_user_input() {
     while true; do
