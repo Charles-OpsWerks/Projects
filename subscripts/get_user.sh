@@ -1,16 +1,17 @@
 #!/bin/bash
 echo "[+] Getting user input..."
 
+
 get_user_input() {
-        read -p "Enter name: " name
-        name=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-        if [[ -z "$name" ]]; then
-            echo "[!] Name cannot be empty. Exiting."
-            exit 1
-        elif [[ "$name" == "print" ]]; then
-            source ./subscripts/print_user.sh
-            exit 0
-        fi
+    read -p "Enter name: " name
+    name=$(echo "$name")
+    if [[ -z "$name" ]]; then
+        echo "[!] Name cannot be empty. Exiting."
+        exit 1
+    elif [[ "$name" =~ ^[Pp][Rr][Ii][Nn][Tt]$ ]]; then
+         source ./subscripts/print_user.sh
+         exit 0 
+    fi
 
     echo "Select shift:"
     echo -e "\t 1. Morning (6am - 3pm)"
