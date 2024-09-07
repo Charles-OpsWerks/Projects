@@ -9,19 +9,13 @@ capitalize_name() {
 
 get_user_input() {
     read -p "Enter name: " name
-
-    name_lower=$(echo "$name" | tr '[:upper:]' '[:lower:]')
-
-    if [[ "$name_lower" == "print" ]]; then
-        source ./subscripts/print_user.sh
-        exit 0
-    fi
-
-    name=$(capitalize_name "$name")
-
+    name=$(echo "$name")
     if [[ -z "$name" ]]; then
         echo "[!] Name cannot be empty. Exiting."
         exit 1
+    elif [[ "$name" =~ ^[Pp][Rr][Ii][Nn][Tt]$ ]]; then
+         source ./subscripts/print_user.sh
+         exit 0 
     fi
 
     echo "Select shift:"
