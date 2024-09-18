@@ -13,6 +13,8 @@ pipeline {
 		                git branch: 'master', url: 'https://github.com/Git-Buds/Project-Scheduler.git'
                     def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                     
+                    echo "[+] Docker Image: ${dockerImage}"
+
                     // Push the Docker image
                     docker.withRegistry('https://registry.hub.docker.com', DOCKER_CREDENTIALS_ID) {
                         dockerImage.push("${BUILD_NUMBER}")
