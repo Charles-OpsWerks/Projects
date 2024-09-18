@@ -31,12 +31,14 @@ pipeline {
             credentialsId: 'my-kube-config-credentials', 
             namespace: 'default', 
             restrictKubeConfigAccess: false, 
-            serverUrl: 'https://jump-host:6443') 
-            
+            serverUrl: 'https://jump-host:6443') {
+
             echo "[+] Deploying...."
                 sh 'kubectl apply -f ./kubernetes/.'
                 sh 'kubectl get all'
+            }
+            
         }
     }
-}
+  }
 }
