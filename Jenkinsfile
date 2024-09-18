@@ -32,11 +32,12 @@ pipeline {
             namespace: 'default', 
             restrictKubeConfigAccess: false, 
             serverUrl: 'https://jump-host:6443') {
-
             echo "[+] Deploying...."
+		        sh "sed -i 's#{image}#${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}#g' kubernetes/main_deployment.yml"
                 sh 'kubectl apply -f ./kubernetes/.'
+                sh 'kubectl config set-context --current --namespace=shift-sched-ns'
                 sh 'kubectl get all'
-            }
+         }
             
         }
     }
