@@ -8,9 +8,8 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-		                echo '[+] Building....'
-		                
-		                git branch: 'master', url: 'https://github.com/Git-Buds/Project-Scheduler.git'
+		            echo '[+] Building....'
+                    
                     def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                     
                     echo "[+] Docker Image: ${dockerImage}"
