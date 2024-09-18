@@ -25,13 +25,6 @@ spec:
       storage: 1Gi
       
 ---
-# Compilation of all definition.yaml file to build for testing purposes
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: shift-sched-ns
-  
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
