@@ -2,7 +2,7 @@ pipeline {
     agent { label 'docker' }
     environment{
         DOCKER_CREDENTIALS_ID = 'docker-credentials'
-        DOCKER_IMAGE_NAME = 'shift_sched_image'
+        DOCKER_IMAGE_NAME = 'clariceandrea/shift_sched_image'
     }
     stages {
         stage('Build') {
