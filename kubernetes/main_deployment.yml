@@ -31,7 +31,7 @@ metadata:
   name: shift-sched
   namespace: shift-sched-ns
 spec:
-  replicas: 3
+  replicas: 5
   selector:
     matchLabels:
       app: shift-sched-app
