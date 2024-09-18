@@ -33,8 +33,13 @@ pipeline {
             restrictKubeConfigAccess: false, 
             serverUrl: 'https://jump-host:6443') {
             echo "[+] Deploying...."
-		        sh "sed -i 's#{image}#${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}#g' kubernetes/main_deployment.yml"
-                sh 'kubectl apply -f ./kubernetes/.'
+		sh "sed -i 's#{image}#${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}#g' kubernetes/main_deployment.yml"
+		sh '''
+                    if ! kubectl get namespace shift-sched-ns; then
+                        kubectl create namespace shift-sched-ns
+                    fi 
+                   '''
+                sh 'kubectl apply -f ./kubernetes/main_deployment.yml'
                 sh 'kubectl config set-context --current --namespace=shift-sched-ns'
                 sh 'kubectl get all'
          }
