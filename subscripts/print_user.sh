@@ -11,3 +11,4 @@ print_user() {
 }
 
 print_user
+read -p "" enter
