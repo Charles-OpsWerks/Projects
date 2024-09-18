@@ -1,22 +1,16 @@
 pipeline {
-    agent {
-        label "docker"
-    }
-    environment {
+    agent { label 'docker' }
+    environment{
         DOCKER_CREDENTIALS_ID = 'docker-credentials'
         DOCKER_IMAGE_NAME = 'shift_sched_image'
-        
     }
-    
-    
     stages {
-        stage('Build and Push Docker Image') {
+        stage('Build') {
             steps {
-               
                 script {
-                    def dockerCredentials = credentials(DOCKER_CREDENTIALS_ID)
-                    echo "Username is: ${dockerCredentials.username}"
-                    // Build the Docker image
+		                echo '[+] Building....'
+		                
+		                git branch: 'master', url: 'https://github.com/Git-Buds/Project-Scheduler.git'
                     def dockerImage = docker.build("${DOCKER_IMAGE_NAME}:${BUILD_NUMBER}")
                     
                     // Push the Docker image
@@ -29,11 +23,18 @@ pipeline {
             }
         }
         stage('Deploy') {
-          steps{
-              script{
-                echo "[+]Deploy"
-              }
-          }
+            steps {
+            withKubeConfig(caCertificate: "${KUBE_CERT}", 
+            clusterName: 'kubernetes', 
+            contextName: 'kubernetes-admin@kubernetes', 
+            credentialsId: 'my-kube-config-credentials', 
+            namespace: 'default', 
+            restrictKubeConfigAccess: false, 
+            serverUrl: 'https://jump-host:6443') 
+            
+            echo "[+] Deploying...."
+                sh 'kubectl apply -f ./kubernetes/.'
+                sh 'kubectl get all'
         }
     }
 }
