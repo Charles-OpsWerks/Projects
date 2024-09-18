@@ -1,0 +1,84 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: shift-sched-pv
+  namespace: shift-sched-ns
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data" 
+    
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: shift-sched-pvc
+  namespace: shift-sched-ns
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+      
+---
+# Compilation of all definition.yaml file to build for testing purposes
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: shift-sched-ns
+  
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shift-sched
+  namespace: shift-sched-ns
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: shift-sched-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate      
+  template:
+    metadata:
+      labels:
+        app: shift-sched-app
+    spec:
+      containers:
+      - name: container-shift-sched
+        image: {image} #ImageName
+        ports:
+          - containerPort: 8080
+        volumeMounts:
+          - name: shift-sched-vol
+            mountPath: /app/data   # Mount the volume where data is shared
+      volumes:
+        - name: shift-sched-vol
+          persistentVolumeClaim:
+            claimName: shift-sched-pvc
+            
+---
+apiVersion: v1 
+kind: Service 
+metadata: 
+  labels: 
+    app: shift-sched-app
+  name: svc-nodeport
+  namespace: shift-sched-ns
+spec: 
+  ports: 
+  - port: 8080
+    protocol: TCP 
+    targetPort: 8080 
+    nodePort: 30008 
+  selector: 
+    app: shift-sched-app
+  type: NodePort
